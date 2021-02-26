@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { useState } from 'react';
+import './index.css'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
 
 
 const message = {
@@ -8,11 +12,18 @@ const message = {
     text: "i'm loving this",
     author: {
         name: 'Luiz Toquetto',
-        avatar_img: 'https://placekitten.com/200/200',
+        avatar_img: 'https://placekitten.com/g/200/200',
     }
 }
 
+
 function Message(props){
+    const [numberOfLikes, setNumberOfLikes] = useState(0)
+
+    function likedButton(){
+        setNumberOfLikes(numberOfLikes+1)
+    }
+
     return(
         <div className="Message">
             <UserInfo user={props.user.author}/>
@@ -21,6 +32,12 @@ function Message(props){
             </div>
             <div className="FormatedDate">
                 {formatDate(props.user.date)}
+            </div>
+            <div>
+                <button onClick={likedButton}>
+                    <FontAwesomeIcon icon={faHeart} />
+                </button>
+                <span className="likeButtonText">{numberOfLikes}</span>
             </div>
         </div>
     )
@@ -50,9 +67,9 @@ function formatDate(date){
     return date.toLocaleDateString()
 }
 
-
+const elementMessage = <Message user={message}/>
 
 ReactDOM.render(
-  <Message user={message}/>,
+  elementMessage,
   document.getElementById('root')
 );
